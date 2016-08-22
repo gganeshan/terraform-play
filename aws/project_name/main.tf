@@ -1,11 +1,21 @@
 module "vpc" {
-  source = "../modules/network/vpc"
+  # module source
+  source                = "../modules/network/vpc"
 
-  name = "my-vpc"
+  # vpc name
+  name                  = "my-vpc"
 
-  cidr = "10.0.0.0/16"
-  private_subnets = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
-  public_subnets  = ["10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"]
+  # vpc cidr
+  cidr                  = "${var.vpc_cidr}"
 
-  azs      = ["us-west-2a", "us-west-2b", "us-west-2c"]
+  # private and public subnet cidr blocks ranges
+  private_subnets       = "${var.private_subnet_cidr}"
+  public_subnets        = "${var.public_subnet_cidr}"
+
+  # availability zones
+  azs                   = "${var.azs}"
+
+  # private and public subnet names
+  private_subnet_names  = "${var.private_subnet_names}"
+  public_subnet_names   = "${var.public_subnet_names}"
 }
