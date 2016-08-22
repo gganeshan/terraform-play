@@ -16,9 +16,9 @@ dependencies:
       # https://www.terraform.io/upgrade-guides/0-7.html
       find $HOME/.terraform -name 'terraform-*' -exec rm -f {} +
 
-      cd $HOME/.terraform
+      cd $HOME/.terraform-play
 
-      CURRENT_VERSION="$([[ -x ./terraform ]] && ./terraform --version 2>&1 | awk -Fv '/^Terraform/ {print $NF}')"
+      CURRENT_VERSION="$([[ -x ./terraform-play ]] && ./terraform-play --version 2>&1 | awk -Fv '/^Terraform/ {print $NF}')"
       echo "CURRENT_VERSION=${CURRENT_VERSION}"
 
       if ! [[ "x${CURRENT_VERSION}" == "x${TERRAFORM_VERSION}" ]]; then
