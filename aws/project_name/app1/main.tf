@@ -1,6 +1,6 @@
 module "vpc" {
   # module source
-  source                = "../modules/network/vpc"
+  source                = "../../modules/network/vpc"
 
   # vpc name
   name                  = "my-vpc"
