@@ -1,6 +1,6 @@
 module "vpc" {
   # module source
-  source                = "../../modules/network/vpc"
+  source                = "./aws/modules/network/vpc"
 
   # vpc name
   name                  = "my-vpc"
@@ -16,6 +16,6 @@ module "vpc" {
   azs                   = "${var.azs}"
 
   # private and public subnet names
-  private_subnets_names = "${var.private_subnet_names}"
+  private_subnet_names  = "${var.private_subnet_names}"
   public_subnet_names   = "${var.public_subnet_names}"
 }

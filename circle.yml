@@ -35,7 +35,10 @@ test:
   override:
     - |
       pwd
+      terraform remote config -backend=s3 -backend-config="bucket=2016-gg-dev" -backend-config="key=tfstate/terraform.tfstate" -state="tfstate/terraform.tfstate"
+      terraform rm -r ./.terraform
       terraform get
+      terraform plan -module-depth=3
       terraform plan -module-depth=3 -state=terraform.tfstate
 deployment:
   production:
@@ -44,6 +47,7 @@ deployment:
     commands:
       - |
         pwd
-        terraform remote config -backend=s3 -backend-config="bucket=2016-gg-dev" -backend-config="key=tfstate/terraform.tfstate" -state="tfstate/terraform.tfstate"
+        rm -r ./.terraform
         terraform get
-        terraform plan -state=terraform.tfstate
+        terraform plan -module-depth=3
+        terraform plan -module-depth=3 -state=terraform.tfstate

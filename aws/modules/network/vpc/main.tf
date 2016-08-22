@@ -43,7 +43,7 @@ resource "aws_subnet" "private" {
   count             = "${length(var.private_subnets)}"
 
   tags {
-    Name = "${var.name}-private"
+    Name = "${var.private_subnet_names[count.index]}"
   }
 }
 
@@ -54,7 +54,7 @@ resource "aws_subnet" "public" {
   count             = "${length(var.public_subnets)}"
 
   tags {
-    Name = "${var.name}-public"
+    Name = "${var.public_subnet_names[count.index]}"
   }
 
   map_public_ip_on_launch = true
