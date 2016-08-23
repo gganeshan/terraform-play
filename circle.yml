@@ -1,24 +1,24 @@
 machine:
   environment:
-    PATH: $HOME/.terraform-play:$PATH
+    PATH: $HOME/.terraform:$PATH
     # https://github.com/hashicorp/terraform/blob/master/CHANGELOG.md
     TERRAFORM_VERSION: 0.7.1
     AWS_DEFAULT_REGION: us-west-2
 dependencies:
   cache_directories:
-    - ~/.terraform-play
+    - ~/.terraform
   pre:
     - |
       # Create cache dir if necessary.
-      mkdir -p $HOME/.terraform-play
+      mkdir -p $HOME/.terraform
 
       # Remove old plugins (if any) from cache.
       # https://www.terraform.io/upgrade-guides/0-7.html
-      find $HOME/.terraform-play -name 'terraform-*' -exec rm -f {} +
+      find $HOME/.terraform -name 'terraform-*' -exec rm -f {} +
 
-      cd $HOME/.terraform-play
+      cd $HOME/.terraform
 
-      CURRENT_VERSION="$([[ -x ./terraform-play ]] && ./terraform-play --version 2>&1 | awk -Fv '/^Terraform/ {print $NF}')"
+      CURRENT_VERSION="$([[ -x ./terraform ]] && ./terraform --version 2>&1 | awk -Fv '/^Terraform/ {print $NF}')"
       echo "CURRENT_VERSION=${CURRENT_VERSION}"
 
       if ! [[ "x${CURRENT_VERSION}" == "x${TERRAFORM_VERSION}" ]]; then
@@ -30,24 +30,14 @@ test:
   pre:
     - command -v terraform
     - terraform --version
-    - |
-      terraform remote config -backend=s3 -backend-config="bucket=2016-gg-dev" -backend-config="key=tfstate/terraform.tfstate" -state="tfstate/terraform.tfstate"
   override:
     - |
-      pwd
-      terraform remote config -backend=s3 -backend-config="bucket=2016-gg-dev" -backend-config="key=tfstate/terraform.tfstate" -state="tfstate/terraform.tfstate"
-      terraform rm -r ./.terraform
-      terraform get
-      terraform plan -module-depth=3
-      terraform plan -module-depth=3 -state=terraform.tfstate
+      scripts/find_projects
+      scripts/terraform_test
 deployment:
   production:
     branch: master
     owner: gganeshan
     commands:
       - |
-        pwd
-        rm -r ./.terraform
-        terraform get
-        terraform plan -module-depth=3
-        terraform plan -module-depth=3 -state=terraform.tfstate
+        scripts/terraform_deploy

@@ -1,0 +1,3 @@
+module "poc" {
+  source = "./poc"
+}

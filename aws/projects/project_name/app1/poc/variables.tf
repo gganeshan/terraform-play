@@ -1,3 +1,8 @@
+# VPC name
+variable "vpc_name" {
+  default 		= "project_name.poc"
+}
+
 # VPC CIDR blocks
 variable "vpc_cidr" {
   default               = "10.7.0.0/24"
@@ -8,13 +13,7 @@ variable "private_subnet_names" {
   default 		= 
   [
     "project_name.poc.perimeter.a", 
-    "project_name.poc.perimeter.b", 
-    "project_name.poc.presentation.a", 
-    "project_name.poc.presentation.b", 
-    "project_name.poc.logic.a", 
-    "project_name.poc.logic.b", 
-    "project_name.poc.data.a", 
-    "project_name.poc.data.b"
+    "project_name.poc.perimeter.c" 
   ]
 }
 
@@ -28,13 +27,7 @@ variable "private_subnet_cidr" {
   default               = 
   [
     "10.7.0.0/27", 
-    "10.7.0.32/27", 
-    "10.7.0.64/27", 
-    "10.7.0.96/27", 
-    "10.7.0.128/27", 
-    "10.7.0.160/27", 
-    "10.7.0.192/27", 
-    "10.7.0.224/27"
+    "10.7.0.32/27" 
   ]
 } 
 
@@ -47,13 +40,30 @@ variable "public_subnet_cidr" {
 variable "azs" {
   default = 
   [
-    "us-east-1a", 
-    "us-east-1b",
-    "us-east-1a", 
-    "us-east-1b",
-    "us-east-1a", 
-    "us-east-1b",
-    "us-east-1a", 
-    "us-east-1b"
+    "us-west-2a", 
+    "us-west-2b"
   ]
+}
+
+# default dhcp domain name
+variable "default_dhcp_domain_name" {
+  default = "ec2.internal"
+}
+
+# default dhcp domain name servers
+variable "default_dhcp_domain_name_servers" {
+  default = 
+  [
+    "AmazonProvidedDNS"
+  ]
+}
+
+# default resource name
+variable "default_resource_name" {
+  default = "project_name.poc.default"
+}
+
+# custom resource name
+variable "custom_resource_name" {
+  default = "project_name.poc"
 }

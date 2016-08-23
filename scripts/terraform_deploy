@@ -1,0 +1,11 @@
+#!/bin/sh
+set -e
+
+# Loop through the modified dirs and run terraform commands
+while read dir; do
+  pushd ${dir}
+  terraform remote config -backend=s3 -backend-config="bucket=2016-gg-dev" -backend-config="key=tfstate/terraform.tfstate" -state="tfstate/terraform.tfstate"
+  terraform get
+  terraform apply
+  popd
+done < dirs
